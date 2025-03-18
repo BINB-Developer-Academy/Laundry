@@ -11,7 +11,17 @@ import SwiftUI
 struct LaundryApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                ExploreView()
+                    .tabItem {
+                        Label("Explore", systemImage: "map")
+                    }
+                
+                MyLaundryView()
+                    .tabItem {
+                        Label("My Laundry", systemImage: "washer")
+                    }
+            }
         }
     }
 }
