@@ -59,7 +59,7 @@ struct ExploreView: View {
                 Section {
                     BusinessCardView(laundry: laundry).overlay {
                         NavigationLink(destination: LaundryDetailView(laundry: laundry)) {
-                            
+                            EmptyView()
                         }
                         .opacity(0)
                     }
