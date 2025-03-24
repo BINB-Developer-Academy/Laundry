@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ExploreView: View {
+    @Binding var myBookedLaundries : [BookedLaundry]
+    @Binding var selectedTab: Int
+    @State var navigationPath: [String] = []
+    
     let laundries: [Laundry] = [
         Laundry(
             name: "Bali Laundry",
@@ -54,24 +58,35 @@ struct ExploreView: View {
     ]
     
     var body: some View {
-        NavigationStack {
-            List(laundries) { laundry in
-                Section {
-                    BusinessCardView(laundry: laundry).overlay {
-                        NavigationLink(destination: LaundryDetailView(laundry: laundry)) {
-                            EmptyView()
-                        }
-                        .opacity(0)
-                    }
+        NavigationStack(path: $navigationPath) {
+            ScrollView {
+                ForEach(laundries) { laundry in
+                    NavigationLink(value: laundry.name, label: {
+                        BusinessCardView(laundry: laundry)
+                    })
+                    .padding(.horizontal)
+                    .buttonStyle(.plain)
                 }
-                .listSectionSpacing(8)
-                .listRowInsets(.init(top: 12, leading: 12, bottom: 12, trailing: 12))
+                .padding(.vertical, 8)
             }
+            .background(.gray.opacity(0.05))
+            .shadow(radius: 0.5)
             .navigationTitle("Explore")
+            .navigationDestination(for: String.self) { laundryName in
+                let laundry = self.laundries.first(where: { $0.name == laundryName })!
+                LaundryDetailView(
+                    myBookedLaundries: $myBookedLaundries,
+                    selectedTab: $selectedTab,
+                    navigationPath: $navigationPath,
+                    laundry: laundry
+                )
+            }
+            
         }
+        
     }
 }
 
 #Preview {
-    ExploreView()
+    ExploreView(myBookedLaundries: .constant([]), selectedTab: .constant(0))
 }

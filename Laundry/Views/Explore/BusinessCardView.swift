@@ -40,6 +40,10 @@ struct BusinessCardView: View {
                     .font(.caption)
             }
         }
+        .padding(.all, 8)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerSize: .init(width: 8, height: 8)))
+        
     }
 }
 
@@ -54,6 +58,5 @@ struct BusinessCardView_Previews: PreviewProvider {
             imageName: "bali_laundry"
         ))
         .previewLayout(.sizeThatFits)
-        .padding()
     }
 }

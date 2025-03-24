@@ -41,6 +41,5 @@ struct RatingView_Previews: PreviewProvider {
             imageName: "bali_laundry"
         ).rating)
         .previewLayout(.sizeThatFits)
-        .padding()
     }
 }

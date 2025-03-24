@@ -9,18 +9,23 @@ import SwiftUI
 
 @main
 struct LaundryApp: App {
+    
+    @State var myBookedLaundries: [BookedLaundry] = []
+    @State var selectedTab: Int = 0
+    
     var body: some Scene {
         WindowGroup {
-            TabView {
-                ExploreView()
+            TabView (selection: $selectedTab) {
+                ExploreView(myBookedLaundries: $myBookedLaundries, selectedTab: $selectedTab)
                     .tabItem {
                         Label("Explore", systemImage: "map")
                     }
-                
-                MyLaundryView()
+                    .tag(0)
+                MyLaundryView(myBookedLaundries: $myBookedLaundries)
                     .tabItem {
                         Label("My Laundry", systemImage: "washer")
                     }
+                    .tag(1)
             }
         }
     }
