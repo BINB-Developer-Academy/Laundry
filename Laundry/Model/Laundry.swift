@@ -5,14 +5,6 @@
 //  Created by Javier Fransiscus on 13/03/25.
 //
 
-
-//
-//  Explore.swift
-//  Laundry
-//
-//  Created by Javier Fransiscus on 12/03/25.
-//
-
 import SwiftUI
 
 struct Laundry: Identifiable {

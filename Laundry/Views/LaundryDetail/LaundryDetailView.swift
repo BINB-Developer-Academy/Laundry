@@ -13,11 +13,16 @@ struct LaundryDetailView: View {
     @Binding var navigationPath: [String]
     
     let laundry: Laundry
-    @State private var selectedService: String?
-    @State private var isIroningSelected = false
-    @State private var selectedDate = Date()
+    // Optional Value, read more at https://developer.apple.com/documentation/swift/optional
+    @State var selectedService: String?
+    @State var isIroningSelected = false
+    @State var selectedDate = Date()
     
-    var services: [String: Int] = ["Same Day": 25_000, "Next Day": 18_000, "Three Day": 12_000]
+    var services: [String: Int] = [
+        "Same Day": 25_000,
+        "Next Day": 18_000,
+        "Three Day": 12_000
+    ]
     let ironingPrice: Int = 5_000
     @State private var totalPrice: Int = 0
     
@@ -28,41 +33,13 @@ struct LaundryDetailView: View {
                 HeaderDetailView(laundry: laundry)
                 
                 //MARK: - Service Selection
-                SectionHeader(title: "Select Service")
-                    .padding(.top, 16)
-                
-                VStack(spacing: 0) {
-                    ServiceOption(title: "Same Day", price: "Rp25.000/per Kg", selectedService: $selectedService)
-                    ServiceOption(title: "Next Day", price: "Rp18.000/per Kg", selectedService: $selectedService)
-                    ServiceOption(title: "Three Day", price: "Rp12.000/per Kg", selectedService: $selectedService)
-                }
+                ServiceOptionView(selectedService: $selectedService)
                 
                 //MARK: - Add-on Selection
-                SectionHeader(title: "Add On")
-                    .padding(.top, 16)
-                Toggle(isOn: $isIroningSelected) {
-                    Text("Ironing • + Rp\(ironingPrice)/per Kg")
-                        .font(.body)
-                }
-                .frame(height: 60)
-                .padding(.horizontal)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding(.horizontal, 1)
-                .shadow(radius: 0.5)
+                AddOnView(isIroningSelected: $isIroningSelected, ironingPrice: ironingPrice)
                 
                 //MARK: - Pickup Time Selection
-                SectionHeader(title: "Select Pickup Time")
-                DatePicker("Pickup Time", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
-                    .datePickerStyle(.compact)
-                    .frame(height: 60)
-                    .padding(.horizontal)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 1)
-                    .shadow(radius: 0.5)
-                    .padding(.bottom, 16)
-                
+                PickupDateView(selectedDate: $selectedDate)
                 
                 //MARK: - Calculation for Approximate Price footer
                 // Unwrap the conditional statement, learn more at https://developer.apple.com/documentation/swift/optional#Optional-Binding
@@ -87,7 +64,12 @@ struct LaundryDetailView: View {
                         isIroning: isIroningSelected,
                         estimatedPickupTime: selectedDate
                     )
-                    BookingCompleteView(myBookedLaundries: $myBookedLaundries, selectedTab: $selectedTab, navigationPath: $navigationPath, bookedLaundry: bookedLaundry)
+                    BookingCompleteView(
+                        myBookedLaundries: $myBookedLaundries,
+                        selectedTab: $selectedTab,
+                        navigationPath: $navigationPath,
+                        bookedLaundry: bookedLaundry
+                    )
                 } label: {
                     Text("Book Laundry Pickup")
                         .frame(maxWidth: .infinity)
@@ -102,6 +84,7 @@ struct LaundryDetailView: View {
         .background(.gray.opacity(0.05))
         .navigationTitle(laundry.name)
         .navigationBarTitleDisplayMode(.inline)
+        // View Life Cycle, read more at https://developer.apple.com/documentation/swiftui/view-input-and-events#View-life-cycle
         .onChange(of: selectedService) { oldValue, newValue in
             updatePrice()
         }
@@ -117,8 +100,6 @@ struct LaundryDetailView: View {
         }
     }
 }
-
-
 
 // MARK: - Preview
 #Preview {
