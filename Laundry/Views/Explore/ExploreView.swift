@@ -58,14 +58,8 @@ struct ExploreView: View {
         NavigationStack {
             ScrollView {
                 ForEach(laundries) { laundry in
-                    NavigationLink {
-                        LaundryDetailView()
-                    } label: {
-                        BusinessCardView(laundry: laundry)
-                    }
-                    .padding(.horizontal)
-                    .buttonStyle(.plain)
-
+                    BusinessCardView(laundry: laundry)
+                        .padding(.horizontal)
                 }
                 .padding(.vertical, 8)
             }
