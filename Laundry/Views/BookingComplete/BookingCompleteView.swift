@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct BookingCompleteView: View {
-    @Binding var myBookedLaundries: [BookedLaundry]
-    @Binding var selectedTab: Int
-    @Binding var navigationPath: [String]
+    let laundryName = "Laundry Name"
+    let isIroning = true
+    let service = "Same Day"
+    let estimatedPickupTime = Date()
+    let totalPrice = 30_000
     
-    let bookedLaundry: BookedLaundry
     
     var body: some View {
         ScrollView {
@@ -23,12 +24,12 @@ struct BookingCompleteView: View {
                         .foregroundColor(.green)
                         .padding()
                     
-                    Text(bookedLaundry.laundry.name)
+                    Text(laundryName)
                         .font(.title2)
                         .bold()
                     
-                    if bookedLaundry.isIroning {
-                        Text("\(bookedLaundry.service) Laundry")
+                    if isIroning {
+                        Text("\(service) Laundry")
                             .bold() +
                         Text(" with ")
                             .font(.callout) +
@@ -36,18 +37,18 @@ struct BookingCompleteView: View {
                             .bold() +
                         Text(" booked.")
                     }else {
-                        Text("\(bookedLaundry.service) Laundry")
+                        Text("\(service) Laundry")
                             .bold() +
                         Text(" booked.")
                     }
                     
                     Text("Pickup ") +
-                    Text("\(bookedLaundry.estimatedPickupTime.formatted(date: .long, time: .shortened))")
+                    Text("\(estimatedPickupTime.formatted(date: .long, time: .shortened))")
                         .bold()
                     
                     Text("On delivery you will be charged ")
                         .padding(.top)
-                    Text("Rp\(bookedLaundry.totalPrice)/per Kg")
+                    Text("Rp\(totalPrice)/per Kg")
                         .bold()
                     
                 }
@@ -59,8 +60,7 @@ struct BookingCompleteView: View {
                 .shadow(radius: 0.5)
                 
                 Button {
-                    navigationPath.removeAll()
-                    selectedTab = 1
+                    // View Booking Button Action
                 } label: {
                     Text("View Booking")
                         .frame(maxWidth: .infinity)
@@ -77,13 +77,13 @@ struct BookingCompleteView: View {
         .frame(maxWidth: .infinity)
         .background(.gray.opacity(0.05))
         .onAppear {
-            myBookedLaundries.append(bookedLaundry)
+            // Add myBookedLaundries with bookedLaundry
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        BookingCompleteView(myBookedLaundries: .constant([]), selectedTab: .constant(0), navigationPath: .constant([]), bookedLaundry: .dummy)
+        BookingCompleteView()
     }
 }
