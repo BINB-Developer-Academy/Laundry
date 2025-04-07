@@ -10,10 +10,12 @@ import SwiftUI
 struct ServiceOption: View {
     let title: String
     let price: String
+    @Binding var selectedService: String
 
     var body: some View {
         Button(action: {
             //TODO: - Assign the selected value
+            selectedService = title
         }) {
             HStack {
                 Text("\(title) • \(price)")
@@ -22,8 +24,10 @@ struct ServiceOption: View {
 
                 Spacer()
                 //TODO: - Validate the view when its appear
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.blue)
+                if selectedService == title {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.blue)
+                }
                 
             }
             .padding()
@@ -38,5 +42,5 @@ struct ServiceOption: View {
 
 #Preview {
     let previewTitle = "Same Day"
-    ServiceOption(title: previewTitle, price: "Rp25.000/per Kg")
+    ServiceOption(title: previewTitle, price: "Rp25.000/per Kg", selectedService: .constant(""))
 }

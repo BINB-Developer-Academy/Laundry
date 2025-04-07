@@ -14,6 +14,8 @@ struct LaundryDetailView: View {
     let ironingPrice: Int = 5_000
     @State var isIroningSelected = false
     //
+    @State var selectedService: String = ""
+    //
     @State var selectedDate = Date()
     @State var totalPrice: Int = 0
     
@@ -39,9 +41,9 @@ struct LaundryDetailView: View {
                     .padding(.top, 16)
                 
                 VStack(spacing: 0) {
-                    ServiceOption(title: "Same Day", price: "Rp25.000/per Kg")
-                    ServiceOption(title: "Next Day", price: "Rp18.000/per Kg")
-                    ServiceOption(title: "Three Day", price: "Rp12.000/per Kg")
+                    ServiceOption(title: "Same Day", price: "Rp25.000/per Kg", selectedService: $selectedService)
+                    ServiceOption(title: "Next Day", price: "Rp18.000/per Kg", selectedService: $selectedService)
+                    ServiceOption(title: "Three Day", price: "Rp12.000/per Kg", selectedService: $selectedService)
                 }
                 
                 //MARK: - Add-on Selection
