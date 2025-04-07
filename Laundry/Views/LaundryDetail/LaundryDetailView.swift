@@ -9,14 +9,18 @@ import SwiftUI
 
 struct LaundryDetailView: View {
     //
-    let laundry: Laundry = .dummy
+    var laundry: Laundry
     //
-    let ironingPrice: Int = 5_000
     @State var isIroningSelected = false
-    //
     @State var selectedService: String = ""
-    //
     @State var selectedDate = Date()
+    //
+    var services: [String: Int] = [
+        "Same Day": 25_000,
+        "Next Day": 18_000,
+        "Three Day": 12_000
+    ]
+    let ironingPrice: Int = 5_000
     @State var totalPrice: Int = 0
     
     var body: some View {
@@ -65,17 +69,17 @@ struct LaundryDetailView: View {
                 DatePicker("Pickup Time",
                            selection: $selectedDate,
                            displayedComponents: [.date, .hourAndMinute])
-                    .datePickerStyle(.compact)
-                    .frame(height: 60)
-                    .padding(.horizontal)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal, 1)
-                    .shadow(radius: 0.5)
-                    .padding(.bottom, 16)
+                .datePickerStyle(.compact)
+                .frame(height: 60)
+                .padding(.horizontal)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal, 1)
+                .shadow(radius: 0.5)
+                .padding(.bottom, 16)
                 
                 //MARK: - Calculation for Approximate Price footer
-                if false {
+                if selectedService != "" {
                     // We can add 2 text, read more at https://developer.apple.com/documentation/swiftui/text#Combining-text-views
                     Text("Price per Kg: ")
                         .font(.caption)
@@ -104,12 +108,25 @@ struct LaundryDetailView: View {
         .background(.gray.opacity(0.05))
         .navigationTitle(laundry.name)
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: selectedService) { oldValue, newValue in
+            updatePrice()
+        }
+        .onChange(of: isIroningSelected) { oldValue, newValue in
+            updatePrice()
+        }
+    }
+    
+    func updatePrice() {
+        if selectedService != "" {
+            // Ternary operator, learn more at https://docs.swift.org/swift-book/documentation/the-swift-programming-language/basicoperators/#Ternary-Conditional-Operator
+            totalPrice = isIroningSelected ? services[selectedService]! + ironingPrice : services[selectedService]!
+        }
     }
 }
 
 // MARK: - Preview
 #Preview {
     NavigationStack {
-        LaundryDetailView()
+        LaundryDetailView(laundry: .dummy)
     }
 }

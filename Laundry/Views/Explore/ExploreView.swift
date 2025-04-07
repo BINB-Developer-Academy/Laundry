@@ -52,7 +52,7 @@ struct ExploreView: View {
             ScrollView {
                 ForEach(laundries) { laundry in
                     NavigationLink {
-                        LaundryDetailView()
+                        LaundryDetailView(laundry: laundry)
                     } label: {
                         BusinessCardView(laundry: laundry)
                     }
