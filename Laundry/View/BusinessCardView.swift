@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct BusinessCardView: View {
-    let laundry: Laundry
-
     var body: some View {
         HStack(spacing: 8) {
             // Laundry Image
-            Image(laundry.imageName)
+            Image("bali_laundry")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 100, height: 100)
@@ -22,25 +20,25 @@ struct BusinessCardView: View {
             VStack(alignment: .leading) {
                 // Name & Rating
                 HStack {
-                    Text(laundry.name)
+                    Text("Bali Laundry")
                         .font(.system(size: 16, weight: .bold))
 
                     Spacer()
 
-                    RatingView(rating: laundry.rating)
+                    RatingView()
                 }
                 
                 Spacer().frame(height: 4)
 
                 // Address
-                Text(laundry.address)
+                Text("Jl. Kediri, Tuban")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.gray)
                 
                 Spacer().frame(height: 6)
 
                 // Description
-                Text(laundry.description)
+                Text("Reliable and affordable laundry service in Bali.")
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
             }
@@ -50,14 +48,12 @@ struct BusinessCardView: View {
 
 // MARK: - Rating View Component
 struct RatingView: View {
-    let rating: Double
-
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: "star.fill")
                 .foregroundColor(.green)
 
-            Text(String(format: "%.1f", rating))
+            Text(String(format: "%.1f", 4.5))
                 .font(.system(size: 12, weight: .bold))
                 .foregroundColor(.green)
         }
@@ -71,13 +67,7 @@ struct RatingView: View {
 // MARK: - Preview
 struct BusinessCardView_Previews: PreviewProvider {
     static var previews: some View {
-        BusinessCardView(laundry: .init(
-            name: "Bali Laundry",
-            address: "Jl. Kediri, Tuban",
-            description: "Reliable and affordable laundry service in Bali.",
-            rating: 4.7,
-            imageName: "bali_laundry"
-        ))
+        BusinessCardView()
         .previewLayout(.sizeThatFits)
         .padding()
     }
